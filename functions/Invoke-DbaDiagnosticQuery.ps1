@@ -38,7 +38,16 @@ Run only instance level queries
 
 .PARAMETER DatabaseSpecific
 Run only database level queries
-	
+
+.PARAMETER NoQueryTextColumn
+Use this switch to exclude the [Complete Query Text] column from relevant queries
+
+.PARAMETER NoPlanColumn
+Use this switch to exclude the [Query Plan] column from relevant queries
+
+.PARAMETER NoColumnParsing
+Does not parse the [Complete Query Text] and [Query Plan] columns and disregards the NoQueryTextColumn and NoColumnParsing switches	
+
 .PARAMETER Silent
 Use this switch to disable any kind of verbose messages or progress bars
 	
@@ -84,6 +93,9 @@ Then it will export the results to Export-DbaDiagnosticQuery.
 		[switch]$UseSelectionHelper,
 		[switch]$InstanceOnly,
 		[switch]$DatabaseSpecific,
+        [Switch]$NoQueryTextColumn,
+        [Switch]$NoPlanColumn,
+        [Switch]$NoColumnParsing,
 		[switch]$Silent
 	)
 	
@@ -134,7 +146,7 @@ Then it will export the results to Export-DbaDiagnosticQuery.
 		
 		foreach ($file in $scriptfiles) {
 			if ($file.BaseName.Split("_")[2] -eq $currentdate) {
-				$parsedscript = Invoke-DbaDiagnosticQueryScriptParser -filename $file.fullname
+				$parsedscript = Invoke-DbaDiagnosticQueryScriptParser -filename $file.fullname -NoQueryTextColumn:$NoQueryTextColumn -NoPlanColumn:$NoPlanColumn -NoColumnParsing:$NoColumnParsing
 				
 				$newscript = [pscustomobject]@{
 					Version = $file.Basename.Split("_")[1]

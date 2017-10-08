@@ -5,7 +5,10 @@
 Param(
     [parameter(Mandatory = $true)]
     [ValidateScript({Test-Path $_})]
-    [System.IO.FileInfo]$filename
+    [System.IO.FileInfo]$filename,
+    [Switch]$NoQueryTextColumn,
+    [Switch]$NoPlanColumn,
+    [Switch]$NoColumnParsing
     )
 
     $out = "Parsing file {0}"-f $filename
@@ -19,6 +22,9 @@ Param(
     $start = $false
     $querynr = 0
     $DBSpecific = $false
+
+    if ($NoQueryTextColumn) {$QueryTextColumn = ""}  else {$QueryTextColumn = ", t.[text] AS [Complete Query Text]"}
+    if ($NoPlanColumn) {$PlanTextColumn = ""} else {$PlanTextColumn = ", qp.query_plan AS [Query Plan]"}
 
     foreach($line in $fullscript)
     {
@@ -34,6 +40,14 @@ Param(
         if ($line.StartsWith("-- Database specific queries ***") -or ($line.StartsWith("-- Switch to user database **")))
         {
             $DBSpecific = $true
+        }
+
+        if (!$NoColumnParsing)
+        {
+            if (($line -match "-- uncomment out these columns if not copying results to Excel") -or ($line -match "-- comment out this column if copying results to Excel"))
+            {
+                $line = $QueryTextColumn + $PlanTextColumn
+            }  
         }
 
         if ($line -match "-{2,}\s{1,}(.*) \(Query (\d*)\) \((\D*)\)")

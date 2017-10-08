@@ -129,10 +129,10 @@ function Export-DbaDiagnosticQuery {
                 foreach ($plan in $result."Query Plan") {
                     $plannr += 1
                     if ($row.DatabaseSpecific) {
-                        $planfilename = "$Path\$SqlInstance-$dbname-DQ-$number-$queryname-$plannr-$Suffix.sqlplan"
+                        $planfilename = "$Path\$SqlInstance-$dbname-DQ-$number-$queryname-{0:d2}-$Suffix.sqlplan" -f $plannr
                     }
                     else {
-                        $planfilename = "$Path\$SqlInstance-DQ-$number-$queryname-$plannr-$Suffix.sqlplan"
+                        $planfilename = "$Path\$SqlInstance-DQ-$number-$queryname-{0:d2}-$Suffix.sqlplan" -f $plannr
                     }
                     
                     if (!$NoPlanExport)
@@ -150,10 +150,10 @@ function Export-DbaDiagnosticQuery {
                 foreach ($sql in $result."Complete Query Text") {
                     $sqlnr += 1
                     if ($row.DatabaseSpecific) {
-                        $sqlfilename = "$Path\$SqlInstance-$dbname-DQ-$number-$queryname-$sqlnr-$Suffix.sql"
+                        $sqlfilename = "$Path\$SqlInstance-$dbname-DQ-$number-$queryname-{0:d2}-$Suffix.sql" -f $sqlnr
                     }
                     else {
-                        $sqlfilename = "$Path\$SqlInstance-DQ-$number-$queryname-$sqlnr-$Suffix.sql"
+                        $sqlfilename = "$Path\$SqlInstance-DQ-$number-$queryname-{0:d2}-$Suffix.sql" -f $sqlnr
                     }
                     
                     if (!$NoQueryExport)
