@@ -38,6 +38,6 @@ Describe "$CommandName Integration Tests" -Tags "IntegrationTests" {
         It "still exports results to .sql files if -NoPlanExport switch is used" {
 			$results = Invoke-DbaDiagnosticQuery -SqlInstance $script:instance2 -QueryName 'Top Logical Reads Queries' | Export-DbaDiagnosticQuery -Path "$env:temp\dbatoolsci" -ConvertTo Excel -NoPlanExport
 			(Get-ChildItem "$env:temp\dbatoolsci\*.sql").Count | Should BeGreaterThan 0
-         }
+        }
 	}
 }
