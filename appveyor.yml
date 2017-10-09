@@ -2,6 +2,11 @@
 
 build: false
 
+branches:
+  only:
+    - master
+    - feature-DbaDiagnosticQuery-ColumnSwitches
+
 # Set build info
 environment: 
   environment: development
