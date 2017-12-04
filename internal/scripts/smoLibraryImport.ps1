@@ -147,6 +147,7 @@ $names = @(
 		'Microsoft.SqlServer.WmiEnum',
 		'Microsoft.SqlServer.WMIEWTask',
 		'Microsoft.SqlServer.XMLTask',
+		'sqlmgmt'
 		
 		'Microsoft.SqlServer.Dmf.Adapters',
 		'Microsoft.SqlServer.DmfSqlClrWrapper'
